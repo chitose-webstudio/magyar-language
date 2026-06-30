@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#16271F">
+<title>Énekeljünk! — 合唱と旅のハンガリー語</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Shippori+Mincho:wght@500;600&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#101C18;
+    --bg:#16271F;
+    --bg2:#1E3329;
+    --panel:#22392E;
+    --paper:#F3EDDF;
+    --paper2:#FBF7EC;
+    --gold:#C9A24B;
+    --gold-soft:#DCC288;
+    --gold-deep:#9C7E2D;
+    --line:#3A5B4D;
+    --eosin:#A23030;
+    --on-dark:#EAE3D2;
+    --on-dark-muted:#A6B8AD;
+    --on-paper:#2A322C;
+    --on-paper-muted:#626D60;
+    --display:'Fraunces',Georgia,serif;
+    --jp:'Shippori Mincho',serif;
+    --ui:'Zen Kaku Gothic New',system-ui,sans-serif;
+    --radius:15px;
+    --maxw:600px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:radial-gradient(1000px 560px at 50% -10%, #234035 0%, transparent 60%), var(--bg);
+    color:var(--on-dark);
+    font-family:var(--ui);
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 18px 86px;}
+
+  /* ---------- header ---------- */
+  header.top{padding:46px 0 6px;}
+  .eyebrow{font-family:var(--ui);font-size:12.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin:0 0 16px;}
+  h1.hero{font-family:var(--display);font-optical-sizing:auto;font-weight:600;font-size:clamp(48px,15vw,76px);line-height:.94;margin:0;color:var(--on-dark);letter-spacing:-.01em;}
+  h1.hero .dot{color:var(--gold);}
+  .sub{font-family:var(--jp);font-size:clamp(16px,4.2vw,18px);color:var(--on-dark-muted);margin:18px 0 0;line-height:1.7;}
+  .staff{margin:28px 0 6px;height:44px;width:100%;display:block;overflow:visible;}
+  .staff line{stroke:var(--line);stroke-width:1;}
+  .staff .note{fill:var(--gold);}
+  .staff .note.soft{fill:var(--gold-soft);}
+
+  /* ---------- hint + guide ---------- */
+  .hint{
+    display:flex;gap:13px;align-items:center;
+    background:var(--bg2);border:1px solid var(--gold-deep);border-radius:var(--radius);
+    padding:15px 17px;margin:6px 0 14px;font-size:15.5px;line-height:1.55;color:var(--on-dark);
+  }
+  .hint .big{font-size:24px;line-height:1;flex:none;color:var(--gold);}
+
+  .voicewarn{display:none;background:var(--bg2);border:1px solid var(--eosin);border-radius:13px;padding:14px 16px;margin:0 0 14px;font-size:14.5px;color:var(--on-dark);line-height:1.65;}
+  .voicewarn.show{display:block;}
+  .voicewarn b{color:var(--gold-soft);}
+
+  details.guide{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);margin:0 0 26px;overflow:hidden;}
+  details.guide summary{cursor:pointer;list-style:none;padding:17px 18px;font-family:var(--ui);font-weight:700;font-size:16px;color:var(--on-dark);display:flex;align-items:center;gap:10px;}
+  details.guide summary::-webkit-details-marker{display:none;}
+  details.guide summary .lead{font-weight:500;color:var(--on-dark-muted);font-size:14px;}
+  details.guide summary .chev{margin-left:auto;color:var(--gold);transition:transform .25s;font-size:14px;}
+  details.guide[open] summary .chev{transform:rotate(180deg);}
+  .guide-body{padding:4px 18px 22px;border-top:1px solid var(--line);}
+  .guide-body p{font-size:15px;color:var(--on-dark-muted);margin:15px 0 12px;line-height:1.7;}
+  .guide-body p b{color:var(--gold-soft);}
+  .grid-rule{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:9px;}
+  .rule{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;}
+  .rule b{font-family:var(--display);color:var(--gold-soft);font-size:20px;font-weight:600;}
+  .rule span{display:block;font-size:13px;color:var(--on-dark-muted);margin-top:2px;}
+
+  /* ---------- controls ---------- */
+  .controls{position:sticky;top:0;z-index:20;background:linear-gradient(var(--bg) 80%, rgba(22,39,31,0));padding:13px 0 12px;margin:0 -18px;padding-left:18px;padding-right:18px;}
+  .search{display:flex;align-items:center;gap:11px;background:var(--paper);border-radius:13px;padding:0 15px;border:2px solid transparent;transition:border-color .2s;}
+  .search:focus-within{border-color:var(--gold);}
+  .search svg{flex:none;color:var(--on-paper-muted);}
+  .search input{flex:1;border:0;background:transparent;outline:none;font-family:var(--ui);font-size:17px;color:var(--on-paper);padding:14px 0;font-weight:500;}
+  .search input::placeholder{color:var(--on-paper-muted);}
+  .clearbtn{border:0;background:transparent;color:var(--on-paper-muted);cursor:pointer;font-size:24px;line-height:1;padding:4px 6px;}
+  .clearbtn:hover{color:var(--eosin);}
+
+  .row2{display:flex;gap:10px;margin-top:11px;}
+  .toggle{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;font-family:var(--ui);font-size:15px;font-weight:700;color:var(--on-dark-muted);cursor:pointer;transition:.16s;}
+  .toggle:hover{color:var(--on-dark);}
+  .toggle.on{background:var(--gold);border-color:var(--gold);color:#23180A;}
+  .toggle .ic{font-size:17px;}
+
+  .tabs{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px;}
+  .tab{flex:none;border:1px solid var(--line);background:transparent;color:var(--on-dark-muted);font-family:var(--ui);font-weight:700;font-size:15.5px;padding:10px 17px;border-radius:999px;cursor:pointer;transition:.16s;}
+  .tab:hover{color:var(--on-dark);border-color:var(--gold-soft);}
+  .tab.active{background:var(--on-dark);color:var(--ink);border-color:var(--on-dark);}
+
+  /* ---------- sections ---------- */
+  .secthead{display:flex;align-items:baseline;gap:12px;margin:32px 0 14px;}
+  .secthead h2{font-family:var(--display);font-weight:600;font-size:25px;margin:0;color:var(--on-dark);}
+  .secthead .hu{font-family:var(--display);font-style:italic;color:var(--gold);font-size:17px;}
+  .secthead .bar{flex:1;height:1px;background:var(--line);}
+
+  /* ---------- card ---------- */
+  .cards{display:grid;gap:13px;}
+  .card{position:relative;background:var(--paper);color:var(--on-paper);border-radius:var(--radius);padding:18px 18px 16px;box-shadow:0 1px 0 rgba(0,0,0,.2);transition:border-color .15s;border:2px solid transparent;}
+  .card::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:3px;border-radius:3px;background:var(--gold);opacity:.55;}
+  .card.fav{border-color:var(--eosin);}
+  .card.fav::before{background:var(--eosin);opacity:.9;}
+  .card.speaking{border-color:var(--gold);}
+  .hu-phrase{font-family:var(--display);font-weight:600;font-size:clamp(25px,7vw,29px);line-height:1.18;color:var(--on-paper);margin:0;letter-spacing:-.005em;padding-right:44px;}
+  .reading{font-family:var(--ui);font-size:16px;font-weight:700;letter-spacing:.05em;color:var(--gold-deep);margin:7px 0 0;}
+  .meaning{font-family:var(--jp);font-size:19px;color:var(--on-paper);margin:9px 0 0;font-weight:600;}
+  .note{font-family:var(--ui);font-size:14px;color:#7A6224;margin:8px 0 0;font-weight:500;line-height:1.55;}
+  .note::before{content:"›  ";color:var(--gold-deep);}
+
+  .star{position:absolute;top:14px;right:13px;width:40px;height:40px;border:0;background:transparent;cursor:pointer;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#C6B488;transition:.15s;}
+  .star:hover{background:rgba(0,0,0,.05);}
+  .star.on{color:var(--eosin);}
+  .star svg{width:23px;height:23px;}
+
+  .cardfoot{margin-top:15px;}
+  .play{width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;border:1.5px solid var(--gold-deep);background:transparent;color:var(--gold-deep);font-family:var(--ui);font-weight:700;font-size:17px;border-radius:12px;cursor:pointer;transition:.15s;}
+  .play:active{transform:scale(.99);}
+  .play svg{width:22px;height:22px;}
+  .card.speaking .play{background:var(--eosin);border-color:var(--eosin);color:#fff;}
+
+  .empty{text-align:center;padding:56px 18px;color:var(--on-dark-muted);font-family:var(--jp);font-size:17px;}
+  .empty b{display:block;font-family:var(--display);font-size:27px;color:var(--on-dark);margin-bottom:8px;font-style:italic;}
+
+  footer{margin-top:48px;padding-top:22px;border-top:1px solid var(--line);font-size:14px;color:var(--on-dark-muted);text-align:center;line-height:1.9;}
+  footer .hu{font-family:var(--display);font-style:italic;color:var(--gold-soft);font-size:17px;}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important;}}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow">Magyar · 合唱と旅のハンガリー語</p>
+    <h1 class="hero">Énekeljünk<span class="dot">!</span></h1>
+    <p class="sub">さあ、歌いましょう。あいさつから旅、合唱の言葉まで。声に出して覚えましょう。</p>
+    <svg class="staff" viewBox="0 0 880 44" preserveAspectRatio="none" aria-hidden="true">
+      <line x1="0" y1="5"  x2="880" y2="5"/>
+      <line x1="0" y1="15" x2="880" y2="15"/>
+      <line x1="0" y1="24" x2="880" y2="24"/>
+      <line x1="0" y1="34" x2="880" y2="34"/>
+      <line x1="0" y1="44" x2="880" y2="44"/>
+      <circle class="note" cx="120" cy="34" r="5"/>
+      <circle class="note soft" cx="250" cy="15" r="5"/>
+      <circle class="note" cx="380" cy="24" r="5"/>
+      <circle class="note soft" cx="520" cy="5"  r="5"/>
+      <circle class="note" cx="660" cy="24" r="5"/>
+      <circle class="note soft" cx="790" cy="15" r="5"/>
+    </svg>
+  </header>
+
+  <div class="hint"><span class="big">🔊</span><span>カードの「きく」を押すと、ハンガリー語を読み上げます。</span></div>
+
+  <div class="voicewarn" id="voicewarn">
+    この端末には<b>ハンガリー語の音声</b>がまだ入っていないようです。読み上げが英語っぽいときは、スマホの<b>設定 → 音声・読み上げ（テキスト読み上げ）→ 言語を追加</b>で「ハンガリー語」を入れると、よりきれいに発音します。
+  </div>
+
+  <details class="guide">
+    <summary>発音のコツ <span class="lead">— 最初の音節を強く読む</span><span class="chev">▾</span></summary>
+    <div class="guide-body">
+      <p>ハンガリー語は「書いた通りに読む」ので、慣れれば簡単です。<b>アクセントは必ず最初の音節</b>に置きます。母音の上の点（á é í ó ú）は<b>長く伸ばす音</b>で、歌うときに特に大切。下のつづりだけ覚えれば、ほとんど読めます。</p>
+      <div class="grid-rule">
+        <div class="rule"><b>s</b><span>「シュ」</span></div>
+        <div class="rule"><b>sz</b><span>「ス」</span></div>
+        <div class="rule"><b>cs</b><span>「チ」</span></div>
+        <div class="rule"><b>zs</b><span>「ジュ」</span></div>
+        <div class="rule"><b>c</b><span>「ツ」</span></div>
+        <div class="rule"><b>gy</b><span>やわらか「ヂ」</span></div>
+        <div class="rule"><b>ny</b><span>「ニャ行」</span></div>
+        <div class="rule"><b>j / ly</b><span>「ヤ行」</span></div>
+        <div class="rule"><b>a</b><span>「オ」に近い</span></div>
+        <div class="rule"><b>ö / ü</b><span>唇を丸めた音</span></div>
+      </div>
+      <p style="margin-top:15px;font-size:13.5px;">※ カタカナはあくまで目安です。</p>
+    </div>
+  </details>
+
+  <div class="controls">
+    <div class="search">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="search" type="search" placeholder="言葉をさがす…" autocomplete="off">
+      <button class="clearbtn" id="clear" aria-label="けす" hidden>×</button>
+    </div>
+    <div class="row2">
+      <button class="toggle" id="favToggle" aria-pressed="false"><span class="ic">♥</span>お気に入り</button>
+      <button class="toggle" id="slowToggle" aria-pressed="false"><span class="ic">🐢</span>ゆっくり</button>
+    </div>
+    <div class="tabs" id="tabs"></div>
+  </div>
+
+  <div id="list"></div>
+
+  <footer>
+    <span class="hu">Sok sikert a koncerthez!</span><br>
+    コンサートの成功を祈っています。お気に入りはこの端末に保存されます。
+  </footer>
+
+</div>
+
+<script>
+/* ---------------- data ---------------- */
+const DATA = [
+  { id:"greet", title:"あいさつ", hu:"Alapok", items:[
+    {hu:"Szia!", say:"Szia", ym:"スィア", jp:"やあ／こんにちは", note:"友達に。別れ際にも使える"},
+    {hu:"Jó napot kívánok!", say:"Jó napot kívánok", ym:"ヨー ノポト キーヴァーノク", jp:"こんにちは", note:"ていねいな言い方。お店や初対面に"},
+    {hu:"Jó reggelt!", say:"Jó reggelt", ym:"ヨー レッゲルト", jp:"おはよう"},
+    {hu:"Jó estét!", say:"Jó estét", ym:"ヨー エシュテート", jp:"こんばんは"},
+    {hu:"Viszontlátásra!", say:"Viszontlátásra", ym:"ヴィソントラータージュロ", jp:"さようなら"},
+    {hu:"Köszönöm!", say:"Köszönöm", ym:"クスヌム", jp:"ありがとう"},
+    {hu:"Köszönöm szépen!", say:"Köszönöm szépen", ym:"クスヌム セーペン", jp:"どうもありがとう"},
+    {hu:"Szívesen.", say:"Szívesen", ym:"スィーヴェシェン", jp:"どういたしまして"},
+    {hu:"Kérem.", say:"Kérem", ym:"ケーレム", jp:"どうぞ／お願いします", note:"短くて便利。両方の意味で使える"},
+    {hu:"Igen. / Nem.", say:"Igen, nem", ym:"イゲン／ネム", jp:"はい／いいえ"},
+    {hu:"Elnézést!", say:"Elnézést", ym:"エルネーゼーシュト", jp:"すみません", note:"呼びかけにも、軽いお詫びにも"},
+    {hu:"Bocsánat.", say:"Bocsánat", ym:"ボチャーノト", jp:"ごめんなさい"},
+    {hu:"Hogy van?", say:"Hogy van", ym:"ホジ ヴォン", jp:"お元気ですか？"},
+    {hu:"Jól vagyok, köszönöm.", say:"Jól vagyok, köszönöm", ym:"ヨール ヴォジョク、クスヌム", jp:"元気です、ありがとう"},
+    {hu:"Nem értem.", say:"Nem értem", ym:"ネム エールテム", jp:"わかりません"},
+    {hu:"Beszél angolul?", say:"Beszél angolul", ym:"ベセール オンゴルル", jp:"英語を話せますか？"},
+  ]},
+
+  { id:"travel", title:"旅行・お店", hu:"Utazás", items:[
+    {hu:"Hol van a mosdó?", say:"Hol van a mosdó", ym:"ホル ヴォン オ モジュドー", jp:"トイレはどこですか？"},
+    {hu:"Mennyibe kerül?", say:"Mennyibe kerül", ym:"メンニベ ケリュル", jp:"いくらですか？"},
+    {hu:"A számlát, kérem.", say:"A számlát, kérem", ym:"オ サームラート、ケーレム", jp:"お会計をお願いします"},
+    {hu:"Egy kávét kérek.", say:"Egy kávét kérek", ym:"エジ カーヴェート ケーレク", jp:"コーヒーを1つください"},
+    {hu:"Egy sört kérek.", say:"Egy sört kérek", ym:"エジ シュルト ケーレク", jp:"ビールを1つください"},
+    {hu:"Egy pohár vizet kérek.", say:"Egy pohár vizet kérek", ym:"エジ ポハール ヴィゼト ケーレク", jp:"お水を一杯ください"},
+    {hu:"Finom!", say:"Finom", ym:"フィノム", jp:"おいしい！"},
+    {hu:"Egészségére!", say:"Egészségére", ym:"エゲースシェーゲーレ", jp:"乾杯！", note:"少し長いけれど、決まると喜ばれる"},
+    {hu:"Ez gyönyörű!", say:"Ez gyönyörű", ym:"エズ ヂュニュリュー", jp:"とてもきれい！"},
+    {hu:"Segítség!", say:"Segítség", ym:"シェギートシェーグ", jp:"助けて！", note:"こまった時に"},
+    {hu:"Eltévedtem.", say:"Eltévedtem", ym:"エルテーヴェドテム", jp:"道に迷いました"},
+    {hu:"Készíthetek egy fotót?", say:"Készíthetek egy fotót", ym:"ケースィートヘテク エジ フォトート", jp:"写真を撮ってもいいですか？"},
+    {hu:"Szeretnék…", say:"Szeretnék", ym:"セレトネーク", jp:"…が欲しいのですが", note:"注文に。後ろに欲しいものを続けて"},
+    {hu:"A menüt, kérem.", say:"A menüt, kérem", ym:"オ メニュート ケーレム", jp:"メニューをお願いします"},
+    {hu:"Jó étvágyat!", say:"Jó étvágyat", ym:"ヨー エートヴァージョト", jp:"召し上がれ／いただきます", note:"食事の前のあいさつ"},
+    {hu:"Kártyával fizethetek?", say:"Kártyával fizethetek", ym:"カールチャーヴォル フィゼトヘテク", jp:"カードで払えますか？"},
+    {hu:"Van wifi?", say:"Van wifi", ym:"ヴォン ヴィフィ", jp:"Wi-Fiはありますか？"},
+    {hu:"Tessék.", say:"Tessék", ym:"テッシェーク", jp:"どうぞ", note:"万能の「どうぞ」。お店でもよく耳にする"},
+    {hu:"Foglaltam egy szobát.", say:"Foglaltam egy szobát", ym:"フォグロルトム エジ ソバート", jp:"部屋を予約しています"},
+  ]},
+
+  { id:"move", title:"移動・こまった時", hu:"Útközben", items:[
+    {hu:"Jó utat!", say:"Jó utat", ym:"ヨー ウタト", jp:"よい旅を！", note:"旅立つ人にかける言葉"},
+    {hu:"Hol van…?", say:"Hol van", ym:"ホル ヴォン…", jp:"…はどこですか？", note:"後ろに場所の名前を続けて"},
+    {hu:"Hogy jutok el ide?", say:"Hogy jutok el ide", ym:"ホジ ユトク エル イデ", jp:"ここへはどう行きますか？", note:"地図や住所を見せながら"},
+    {hu:"Egy jegyet kérek.", say:"Egy jegyet kérek", ym:"エジ イェジェト ケーレク", jp:"切符を1枚ください"},
+    {hu:"Hol tudok jegyet venni?", say:"Hol tudok jegyet venni", ym:"ホル トゥドク イェジェト ヴェンニ", jp:"どこで切符を買えますか？"},
+    {hu:"Jobbra / balra / egyenesen", say:"Jobbra, balra, egyenesen", ym:"ヨッブロ／ボルロ／エジェネシェン", jp:"右へ／左へ／まっすぐ"},
+    {hu:"Hívna egy taxit?", say:"Hívna egy taxit", ym:"ヒーヴノ エジ トクシト", jp:"タクシーを呼んでもらえますか？"},
+    {hu:"Le tudná írni?", say:"Le tudná írni", ym:"レ トゥドナー イールニ", jp:"書いてもらえますか？", note:"行き先や住所を書いてもらうと安心"},
+    {hu:"Hívjon orvost!", say:"Hívjon orvost", ym:"ヒーヴヨン オルヴォシュト", jp:"お医者さんを呼んでください！", note:"緊急時に"},
+    {hu:"Hívja a rendőrséget!", say:"Hívja a rendőrséget", ym:"ヒーヴヨ オ レンドゥールシェーゲト", jp:"警察を呼んでください！", note:"緊急時に"},
+  ]},
+
+  { id:"talk", title:"おしゃべり", hu:"Beszélgetés", items:[
+    {hu:"A nevem…", say:"A nevem", ym:"オ ネヴェム…", jp:"私の名前は…です", note:"…に自分の名前を入れて"},
+    {hu:"Japánból jöttem.", say:"Japánból jöttem", ym:"ヤパーンボール ユッテム", jp:"日本から来ました"},
+    {hu:"Először vagyok itt.", say:"Először vagyok itt", ym:"エルッスル ヴォジョク イット", jp:"ここは初めてです"},
+    {hu:"Nagyon tetszik Budapest.", say:"Nagyon tetszik Budapest", ym:"ノジョン テッシク ブドペシュト", jp:"ブダペストが大好きです"},
+    {hu:"Egy kórussal vagyok itt.", say:"Egy kórussal vagyok itt", ym:"エジ コールッショル ヴォジョク イット", jp:"合唱団で来ています", note:"自己紹介の決め言葉"},
+    {hu:"Szeretek énekelni.", say:"Szeretek énekelni", ym:"セレテク エーネケルニ", jp:"歌うのが好きです"},
+    {hu:"Imádom a magyar zenét.", say:"Imádom a magyar zenét", ym:"イマードム オ モジョル ゼネート", jp:"ハンガリーの音楽が大好きです"},
+    {hu:"Milyen szép!", say:"Milyen szép", ym:"ミイェン セープ", jp:"なんて素敵！"},
+    {hu:"Remélem, újra találkozunk.", say:"Remélem, újra találkozunk", ym:"レメーレム、ウーイロ トラールコズンク", jp:"また会えますように"},
+  ]},
+
+  { id:"choir", title:"合唱で", hu:"A kórusban", items:[
+    {hu:"kórus", say:"kórus", ym:"コールシュ", jp:"合唱団"},
+    {hu:"karnagy", say:"karnagy", ym:"コルノジ", jp:"指揮者"},
+    {hu:"próba", say:"próba", ym:"プローボ", jp:"練習・リハーサル"},
+    {hu:"koncert", say:"koncert", ym:"コンツェルト", jp:"コンサート"},
+    {hu:"kotta", say:"kotta", ym:"コッタ", jp:"楽譜"},
+    {hu:"szoprán", say:"szoprán", ym:"ソプラーン", jp:"ソプラノ"},
+    {hu:"alt", say:"alt", ym:"オルト", jp:"アルト"},
+    {hu:"tenor", say:"tenor", ym:"テノル", jp:"テノール"},
+    {hu:"basszus", say:"basszus", ym:"ボッスス", jp:"バス"},
+    {hu:"Kezdjük!", say:"Kezdjük", ym:"ケズヂュク", jp:"始めましょう！"},
+    {hu:"Még egyszer, kérem.", say:"Még egyszer, kérem", ym:"メーグ エジセル、ケーレム", jp:"もう一度お願いします"},
+    {hu:"Az elejéről.", say:"Az elejéről", ym:"オズ エレイェールール", jp:"最初から"},
+    {hu:"Köszönöm a próbát!", say:"Köszönöm a próbát", ym:"クスヌム オ プローバート", jp:"練習ありがとうございました"},
+    {hu:"Sok sikert!", say:"Sok sikert", ym:"ショク シケルト", jp:"がんばって！", note:"本番前に仲間と"},
+    {hu:"Gyönyörű volt!", say:"Gyönyörű volt", ym:"ヂュニュリュー ヴォルト", jp:"素晴らしかった！", note:"本番のあとに"},
+  ]},
+
+  { id:"num", title:"数字", hu:"Számok", items:[
+    {hu:"nulla", say:"nulla", ym:"ヌッロ", jp:"0（ゼロ）"},
+    {hu:"egy", say:"egy", ym:"エジ", jp:"1"},
+    {hu:"kettő", say:"kettő", ym:"ケットゥー", jp:"2"},
+    {hu:"három", say:"három", ym:"ハーロム", jp:"3"},
+    {hu:"négy", say:"négy", ym:"ネージ", jp:"4"},
+    {hu:"öt", say:"öt", ym:"ウト", jp:"5"},
+    {hu:"hat", say:"hat", ym:"ホト", jp:"6"},
+    {hu:"hét", say:"hét", ym:"ヘート", jp:"7"},
+    {hu:"nyolc", say:"nyolc", ym:"ニョルツ", jp:"8"},
+    {hu:"kilenc", say:"kilenc", ym:"キレンツ", jp:"9"},
+    {hu:"tíz", say:"tíz", ym:"ティーズ", jp:"10"},
+    {hu:"száz", say:"száz", ym:"サーズ", jp:"100"},
+    {hu:"ezer", say:"ezer", ym:"エゼル", jp:"1000"},
+    {hu:"forint", say:"forint", ym:"フォリント", jp:"フォリント", note:"ハンガリーのお金の単位（Ft）"},
+  ]},
+
+  { id:"food", title:"たべもの", hu:"Étel-ital", items:[
+    {hu:"víz", say:"víz", ym:"ヴィーズ", jp:"水"},
+    {hu:"kávé", say:"kávé", ym:"カーヴェー", jp:"コーヒー"},
+    {hu:"tea", say:"tea", ym:"テオ", jp:"紅茶・お茶"},
+    {hu:"sör", say:"sör", ym:"シュル", jp:"ビール"},
+    {hu:"bor", say:"bor", ym:"ボル", jp:"ワイン"},
+    {hu:"kenyér", say:"kenyér", ym:"ケニェール", jp:"パン"},
+    {hu:"sajt", say:"sajt", ym:"ショイト", jp:"チーズ"},
+    {hu:"leves", say:"leves", ym:"レヴェシュ", jp:"スープ"},
+    {hu:"hús", say:"hús", ym:"フーシュ", jp:"肉"},
+    {hu:"hal", say:"hal", ym:"ホル", jp:"魚"},
+    {hu:"saláta", say:"saláta", ym:"ショラータ", jp:"サラダ"},
+    {hu:"gyümölcs", say:"gyümölcs", ym:"ヂュムルチ", jp:"果物"},
+    {hu:"gulyás", say:"gulyás", ym:"グヤーシュ", jp:"グヤーシュ", note:"ハンガリー名物、肉と野菜の煮込み"},
+    {hu:"pálinka", say:"pálinka", ym:"パーリンコ", jp:"パーリンカ", note:"果物から作る蒸留酒"},
+  ]},
+
+  { id:"place", title:"まち", hu:"Helyek", items:[
+    {hu:"állomás", say:"állomás", ym:"アーッロマーシュ", jp:"駅"},
+    {hu:"repülőtér", say:"repülőtér", ym:"レピュルーテール", jp:"空港"},
+    {hu:"szálloda", say:"szálloda", ym:"サーッロド", jp:"ホテル"},
+    {hu:"étterem", say:"étterem", ym:"エーッテレム", jp:"レストラン"},
+    {hu:"kávézó", say:"kávézó", ym:"カーヴェーゾー", jp:"カフェ"},
+    {hu:"bolt", say:"bolt", ym:"ボルト", jp:"お店"},
+    {hu:"piac", say:"piac", ym:"ピオツ", jp:"市場"},
+    {hu:"gyógyszertár", say:"gyógyszertár", ym:"ヂョージセルタール", jp:"薬局"},
+    {hu:"templom", say:"templom", ym:"テンプロム", jp:"教会"},
+    {hu:"híd", say:"híd", ym:"ヒード", jp:"橋", note:"ブダペストの鎖橋などが有名"},
+    {hu:"vár", say:"vár", ym:"ヴァール", jp:"城"},
+    {hu:"utca", say:"utca", ym:"ウッツォ", jp:"通り"},
+    {hu:"tér", say:"tér", ym:"テール", jp:"広場"},
+  ]},
+
+  { id:"word", title:"単語", hu:"Szavak", items:[
+    {hu:"ma", say:"ma", ym:"モ", jp:"今日"},
+    {hu:"holnap", say:"holnap", ym:"ホルノプ", jp:"明日"},
+    {hu:"most", say:"most", ym:"モシュト", jp:"今"},
+    {hu:"itt", say:"itt", ym:"イット", jp:"ここ"},
+    {hu:"ott", say:"ott", ym:"オット", jp:"あそこ"},
+    {hu:"jó", say:"jó", ym:"ヨー", jp:"良い"},
+    {hu:"nagy", say:"nagy", ym:"ノジ", jp:"大きい"},
+    {hu:"kicsi", say:"kicsi", ym:"キチ", jp:"小さい"},
+    {hu:"meleg", say:"meleg", ym:"メレグ", jp:"暖かい・暑い"},
+    {hu:"hideg", say:"hideg", ym:"ヒデグ", jp:"冷たい・寒い"},
+    {hu:"drága", say:"drága", ym:"ドラーゴ", jp:"高い（値段）"},
+    {hu:"olcsó", say:"olcsó", ym:"オルチョー", jp:"安い"},
+    {hu:"szép", say:"szép", ym:"セープ", jp:"美しい・素敵"},
+  ]},
+];
+
+/* ---------------- storage ---------------- */
+const Store=(()=>{let mem={},ok=false;try{localStorage.setItem("_t","1");localStorage.removeItem("_t");ok=true;}catch(e){}
+  return{get(k,d){try{if(ok){const v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}}catch(e){}return (k in mem)?mem[k]:d;},
+         set(k,v){try{if(ok){localStorage.setItem(k,JSON.stringify(v));return;}}catch(e){}mem[k]=v;}};})();
+
+/* ---------------- speech ---------------- */
+let voices=[], huVoice=null, slow=false, speakingKey=null;
+const synth=window.speechSynthesis;
+function loadVoices(){
+  if(!synth)return;
+  voices=synth.getVoices();
+  huVoice=voices.find(v=>v.lang&&v.lang.toLowerCase().startsWith("hu"))||null;
+  const w=document.getElementById("voicewarn");
+  if(voices.length&&!huVoice)w.classList.add("show");else w.classList.remove("show");
+}
+if(synth){synth.onvoiceschanged=loadVoices;loadVoices();setTimeout(loadVoices,400);}
+function stopSpeak(){if(synth)synth.cancel();speakingKey=null;document.querySelectorAll(".card.speaking").forEach(c=>c.classList.remove("speaking"));}
+function speak(text,key,card){
+  if(!synth){alert("この端末は読み上げに対応していません。");return;}
+  if(speakingKey===key){stopSpeak();return;}
+  stopSpeak();
+  const u=new SpeechSynthesisUtterance(text.replace(/\//g,", "));
+  u.lang="hu-HU";if(huVoice)u.voice=huVoice;
+  u.rate=slow?0.55:0.78;u.pitch=1;
+  u.onend=()=>{if(speakingKey===key)stopSpeak();};
+  u.onerror=()=>stopSpeak();
+  speakingKey=key;card.classList.add("speaking");synth.speak(u);
+}
+
+/* ---------------- state & render ---------------- */
+let state={tab:"all",query:"",favOnly:false,favs:new Set(Store.get("mk_favs",[]))};
+const norm=s=>(s||"").toLowerCase().normalize("NFC");
+const tabsEl=document.getElementById("tabs"),listEl=document.getElementById("list");
+const searchEl=document.getElementById("search"),clearEl=document.getElementById("clear");
+const favBtn=document.getElementById("favToggle"),slowBtn=document.getElementById("slowToggle");
+
+const TABS=[{id:"all",title:"すべて"},...DATA.map(c=>({id:c.id,title:c.title}))];
+function buildTabs(){tabsEl.innerHTML="";TABS.forEach(t=>{const b=document.createElement("button");
+  b.className="tab"+(state.tab===t.id?" active":"");b.textContent=t.title;
+  b.onclick=()=>{state.tab=t.id;stopSpeak();render();};tabsEl.appendChild(b);});}
+function matches(it){if(state.favOnly&&!state.favs.has(it.hu))return false;if(!state.query)return true;
+  const q=norm(state.query);return norm(it.hu).includes(q)||norm(it.ym).includes(q)||norm(it.jp).includes(q)||norm(it.note||"").includes(q);}
+function cardHTML(it){
+  const fav=state.favs.has(it.hu);
+  const sp=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M16.5 8.5a4 4 0 0 1 0 7"/></svg>`;
+  const st=`<svg viewBox="0 0 24 24" fill="${fav?'currentColor':'none'}" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 17.3l-5.4 3.1 1.4-6.1-4.6-4 6.2-.5L12 4l2.4 5.8 6.2.5-4.6 4 1.4 6.1z"/></svg>`;
+  return `<div class="card${fav?' fav':''}" data-k="${encodeURIComponent(it.hu)}" data-say="${encodeURIComponent(it.say)}">
+    <p class="hu-phrase">${it.hu}</p>
+    <p class="reading">${it.ym}</p>
+    <p class="meaning">${it.jp}</p>
+    ${it.note?`<p class="note">${it.note}</p>`:""}
+    <button class="star${fav?' on':''}" aria-label="お気に入り">${st}</button>
+    <div class="cardfoot"><button class="play" aria-label="きく">${sp}きく</button></div>
+  </div>`;
+}
+function render(){
+  buildTabs();
+  favBtn.classList.toggle("on",state.favOnly);
+  slowBtn.classList.toggle("on",slow);
+  clearEl.hidden=!state.query;
+  const cats=state.tab==="all"?DATA:DATA.filter(c=>c.id===state.tab);
+  let html="",total=0;
+  cats.forEach(c=>{const items=c.items.filter(matches);if(!items.length)return;total+=items.length;
+    html+=`<div class="secthead"><h2>${c.title}</h2><span class="hu">${c.hu}</span><span class="bar"></span></div>`;
+    html+=`<div class="cards">${items.map(cardHTML).join("")}</div>`;});
+  if(!total){html=state.favOnly
+    ?`<div class="empty"><b>Még üres</b>★を押すと、ここに集まります。</div>`
+    :`<div class="empty"><b>Nincs találat</b>別の言葉でさがしてみてください。</div>`;}
+  listEl.innerHTML=html;
+}
+listEl.addEventListener("click",e=>{
+  const star=e.target.closest(".star");
+  if(star){const card=star.closest(".card"),k=decodeURIComponent(card.dataset.k);
+    if(state.favs.has(k))state.favs.delete(k);else state.favs.add(k);
+    Store.set("mk_favs",[...state.favs]);render();return;}
+  const play=e.target.closest(".play");
+  if(play){const card=play.closest(".card");
+    speak(decodeURIComponent(card.dataset.say),decodeURIComponent(card.dataset.k),card);}
+});
+searchEl.addEventListener("input",e=>{state.query=e.target.value;render();});
+clearEl.addEventListener("click",()=>{state.query="";searchEl.value="";render();searchEl.focus();});
+favBtn.addEventListener("click",()=>{state.favOnly=!state.favOnly;render();});
+slowBtn.addEventListener("click",()=>{slow=!slow;Store.set("mk_slow",slow);slowBtn.classList.toggle("on",slow);});
+slow=Store.get("mk_slow",false);
+render();
+</script>
+</body>
+</html>
