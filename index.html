@@ -122,7 +122,7 @@
   .hu-phrase{font-family:var(--display);font-weight:600;font-size:clamp(25px,7vw,29px);line-height:1.18;color:var(--on-paper);margin:0;letter-spacing:-.005em;padding-right:44px;}
   .reading{font-family:var(--ui);font-size:16px;font-weight:700;letter-spacing:.05em;color:var(--gold-deep);margin:-2px 0 0;line-height:1.2;}
   .meaning{font-family:var(--jp);font-size:19px;color:var(--on-paper);margin:11px 0 0;font-weight:600;}
-  .note{font-family:var(--ui);font-size:12px;color:#7A6224;margin:-3px 0 0;font-weight:400;line-height:1.45;}
+  .note{font-family:var(--ui);font-size:12px;color:#7A6224;margin:-1px 0 0;font-weight:400;line-height:1.45;}
   .note::before{content:"›  ";color:var(--gold-deep);}
 
   .star{position:absolute;top:14px;right:13px;width:40px;height:40px;border:0;background:transparent;cursor:pointer;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#C6B488;transition:.15s;}
@@ -167,15 +167,14 @@
     </svg>
   </header>
 
-  <div class="hint"><span class="big">🔊</span><span>カードの「きく」を押すと、ハンガリー語を読み上げます。</span></div>
-
   <div class="voicewarn" id="voicewarn">
     この端末には<b>ハンガリー語の音声</b>がまだ入っていないようです。読み上げが英語っぽいときは、スマホの<b>設定 → 音声・読み上げ（テキスト読み上げ）→ 言語を追加</b>で「ハンガリー語」を入れると、よりきれいに発音します。
   </div>
 
   <details class="guide">
-    <summary>発音のコツ <span class="lead">— 最初の音節を強く読む</span><span class="chev">▾</span></summary>
+    <summary>発音のコツ<span class="chev">▾</span></summary>
     <div class="guide-body">
+      <p style="font-weight:700;font-size:15px;color:var(--gold-soft);margin:15px 0 0;">最初の音節を強く読む</p>
       <p>ハンガリー語は「書いた通りに読む」ので、慣れれば簡単です。<b>アクセントは必ず最初の音節</b>に置きます。母音の上の点（á é í ó ú）は<b>長く伸ばす音</b>で、歌うときに特に大切。下のつづりだけ覚えれば、ほとんど読めます。</p>
       <div class="grid-rule">
         <div class="rule"><b>s</b><span>「シュ」</span></div>
@@ -397,8 +396,12 @@ function stopSpeak(){
 function playOnline(text,key,card){
   const url="https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=hu&q="+encodeURIComponent(text);
   const a=new Audio(url);
+  const rate=slow?0.6:1;
   try{a.preservesPitch=true;a.mozPreservesPitch=true;a.webkitPreservesPitch=true;}catch(e){}
-  a.playbackRate=slow?0.7:1;
+  a.defaultPlaybackRate=rate;
+  a.playbackRate=rate;
+  a.addEventListener("loadedmetadata",()=>{a.playbackRate=rate;});
+  a.addEventListener("play",()=>{a.playbackRate=rate;});
   curAudio=a;
   a.onended=()=>{if(speakingKey===key)stopSpeak();};
   a.onerror=()=>{if(speakingKey===key)stopSpeak();};
